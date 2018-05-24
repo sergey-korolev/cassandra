@@ -1,0 +1,27 @@
+---
+
+- name: Required common packages
+  hosts: all
+  become: yes
+  tags: common_packages
+  tasks:
+  - name: 'Required common packages : Install Ntp service'
+    apt: name=ntp update_cache=yes
+  - name: 'Required common packages : Install required packages'
+    apt: name={{ item }}
+    with_items:
+    - python
+    - python-pip
+    - python-dev
+    - libffi-dev
+    - libssl-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - libjpeg8-dev
+    - zlib1g-dev
+    - build-essential
+    - git
+    - ntp
+    - software-properties-common
+    - mc
+    - nano

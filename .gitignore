@@ -1,0 +1,17 @@
+### Ansible template
+*.retry
+.venv/
+
+### Vagrant template
+# General
+.vagrant/
+
+# Log files (if you are creating logs in debug mode, uncomment this)
+# *.logs
+
+### TestKitchen template
+.kitchen/
+.kitchen.local.yml
+
+### JetBrains template
+.idea/
