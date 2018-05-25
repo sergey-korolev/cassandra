@@ -23,3 +23,8 @@ vagrant up --no-provision
 ```bash
 vagrant destroy
 ```
+
+#Install standalone cassandra
+```bash
+ansible-playbook standalone.yml -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory 
+```
