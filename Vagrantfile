@@ -20,6 +20,19 @@ Vagrant.configure("2") do |c|
   c.vm.provision :ansible do |ansible|
     ansible.playbook      = "default.yml"
     ansible.sudo          = true
+    ansible.groups        = {
+        "cassandra_nodes" => ["node-1"],
+        "cassandra_nodes:vars" => {
+            "seed" => "true",
+            "install_version" => "apache",
+            "user" => "ubuntu",
+            "deployment_environment" => "",
+            "cluster_name" => "cassandra_cluster_1",
+            "num_tokens" => "256",
+            "dc" => "dc1",
+            "rack" => "rack1"
+        }
+    }
   end
 
   (1..1).each do |i|

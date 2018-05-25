@@ -1,0 +1,33 @@
+---
+
+- name: Cassandra base requirements installation
+  hosts:
+    - all
+  sudo: yes
+  environment:
+    proxy_env:
+      http_proxy: ''
+      https_proxy: ''
+      no_proxy: 'localhost,127.0.0.1'
+  vars:
+    init_server: true
+    empty_cluster: true
+  roles:
+  - { role: cassandra_common, tags: ['cassandra_common'] }
+
+- name: Cassandra installation
+  hosts:
+    - all
+  user: ubuntu
+  sudo: yes
+  environment:
+    proxy_env:
+      http_proxy: ''
+      https_proxy: ''
+      no_proxy: 'localhost,127.0.0.1'
+  vars:
+    init_server: true
+    empty_cluster: true
+    serial: 1
+  roles:
+  - { role: cassandra, tags: ['cassandra'] }
