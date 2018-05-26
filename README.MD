@@ -24,7 +24,16 @@ vagrant up --no-provision
 vagrant destroy
 ```
 
-#Install standalone cassandra
+#Ops
+##Update inventory
+```bash
+vagrant provision --provision-with ansible
+```
+##Install standalone cassandra
 ```bash
 ansible-playbook standalone.yml -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory 
+```
+##Install repair cron job
+```bash
+ansible-playbook repair_job.yml -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory 
 ```

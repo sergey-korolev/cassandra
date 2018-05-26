@@ -26,11 +26,16 @@ Vagrant.configure("2") do |c|
             "seed" => "true",
             "install_version" => "apache",
             "user" => "ubuntu",
+            "install_user" => "cassandra",
             "deployment_environment" => "",
             "cluster_name" => "cassandra_cluster_1",
             "num_tokens" => "256",
-            "dc" => "dc1",
-            "rack" => "rack1"
+            "dc" => "DC2",
+            "rack" => "RAC1",
+            "repair_weekday" => "*",
+            "repair_start_hour" => "03",
+            "repair_start_minute" => "15",
+            "cron_repair_enabled" => "true"
         }
     }
   end

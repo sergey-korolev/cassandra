@@ -1,0 +1,8 @@
+---
+
+- name: Cassandra repair cron job install
+  hosts: cassandra_nodes
+  user: install_user
+  sudo: yes
+  roles:
+  - { role: cassandra_cron, tags: ['cron'] }
