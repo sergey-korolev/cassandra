@@ -27,20 +27,39 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-- name: Create repair cron job entry
+- name: Create partitioner range repair cron job entry daily
   cron:
-    name: "nodetool repair"
+    name: "nodetool repair partitioner range"
     user: "{{ install_user | default('cassandra') }}"
-    weekday: "{{ repair_weekday | default('*') }}"
-    minute: "{{ repair_start_minute | default('0') }}"
-    hour: "{{ repair_start_hour | default('3') }}"
-    job: "/usr/bin/nodetool repair -pr >> /var/log/cassandra/repair_job.log 2>&1"
+    weekday: "{{ repair_partitioner_range_weekday | default('*') }}"
+    minute: "{{ repair_partitioner_range_start_minute | default('0') }}"
+    hour: "{{ repair_partitioner_range_start_hour | default('3') }}"
+    job: "/usr/bin/nodetool repair -pr >> /var/log/cassandra/repair_partitioner_range_job.log 2>&1"
     state: present
     disabled: no
   when: (cron_repair_enabled | default("true")) == "true"
 
 - name: Remove repair cron job entry
   cron:
-    name: "nodetool repair"
+    name: "nodetool repair partitioner range"
     state: absent
   when: (cron_repair_enabled | default("false")) == "false"
+
+- name: Create full repair cron job entry monthly
+  cron:
+    name: "nodetool repair full"
+    user: "{{ install_user | default('cassandra') }}"
+    monthday: "{{ repair_full_day | default('1-8') }}"
+    weekday: "{{ repair_full_weekday | default('6') }}"
+    minute: "{{ repair_full_start_minute | default('0') }}"
+    hour: "{{ repair_full_start_hour | default('4') }}"
+    job: "/usr/bin/nodetool repair -full >> /var/log/cassandra/repair_full_job.log 2>&1"
+    state: present
+    disabled: no
+  when: (cron_repair_enabled | default("true")) == "true" and "install_version" == "dse"
+
+- name: Remove repair cron job entry
+  cron:
+    name: "nodetool repair full"
+    state: absent
+  when: (cron_repair_enabled | default("true")) == "true" and "install_version" == "dse"

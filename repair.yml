@@ -1,0 +1,20 @@
+---
+
+- name: Cassandra repair
+  hosts: cassandra_nodes
+  become: yes
+  tasks:
+
+  - name: Run repair tool
+    shell: "/usr/bin/nodetool repair {{ repair_manual_options }} >> /var/log/cassandra/repair_manually.log 2>&1"
+
+  - name: Fetch repair log
+    fetch:
+      src:  /var/log/cassandra/repair_manually.log
+      dest: "repair_logs/repair_manually_{{ ansible_hostname }}.log"
+      flat: yes
+
+  - name: Cleanup log
+    file:
+      path: /var/log/cassandra/repair_manually.log
+      state: absent

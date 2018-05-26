@@ -1,0 +1,30 @@
+---
+
+- name: Install Java8
+  hosts: all
+  become: yes
+  tags: ycsb_install
+  roles:
+  - mrlesmithjr.oracle-java8
+
+- name: Download and install YCSB
+  hosts: all
+  become: yes
+  tags: ycsb_install
+  tasks:
+
+  - name: download ycsb archive
+    get_url:
+      url: https://github.com/brianfrankcooper/YCSB/releases/download/0.12.0/ycsb-0.12.0.tar.gz
+      dest: /root/ycsb-0.12.0.tar.gz
+
+  - name: unarchive ycsb archive
+    shell: "tar xzf /root/ycsb-0.12.0.tar.gz"
+    args:
+      chdir: /root/
+      creates: "/root/ycsb-0.12.0.log"
+
+#./bin/ycsb load cassandra2-cql -p hosts=206.81.8.65 -P workloads/workloada
+#recordcount=10000000
+#operationcount=10000000
+#./bin/ycsb run cassandra2-cql -p hosts=206.81.8.65 -P workloads/workloada -s -threads 10 -target 100

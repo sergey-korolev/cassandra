@@ -21,6 +21,7 @@ Vagrant.configure("2") do |c|
     ansible.playbook      = "default.yml"
     ansible.sudo          = true
     ansible.groups        = {
+#        "ycsb_nodes" => ["ycsb"],
         "cassandra_nodes" => ["node-1"],
         "cassandra_nodes:vars" => {
             "seed" => "true",
@@ -32,10 +33,15 @@ Vagrant.configure("2") do |c|
             "num_tokens" => "256",
             "dc" => "DC2",
             "rack" => "RAC1",
-            "repair_weekday" => "*",
-            "repair_start_hour" => "03",
-            "repair_start_minute" => "15",
-            "cron_repair_enabled" => "true"
+            "repair_partitioner_range_weekday" => "*",
+            "repair_partitioner_range_start_hour" => "03",
+            "repair_partitioner_range_start_minute" => "15",
+            "repair_full_day" => "1-8",
+            "repair_full_weekday" => "6",
+            "repair_full_start_hour" => "04",
+            "repair_full_start_minute" => "15",
+            "cron_partitioner_range_repair_enabled" => "true",
+            "repair_manual_options" => "-pr"
         }
     }
   end
@@ -45,5 +51,15 @@ Vagrant.configure("2") do |c|
       node.vm.hostname = "node-#{i}"
     end
   end
+
+    c.vm.define "ycsb" do |node|
+      node.vm.hostname = "ycsb"
+#      node.vm.provision :ansible do |a|
+#        a.playbook = "ycsb.yml"
+#      end
+      node.vm.provider :digital_ocean do |p, override|
+        p.size = '1gb'
+      end
+    end
 
 end

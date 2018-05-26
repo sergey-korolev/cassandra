@@ -18,3 +18,5 @@
 
 ### Local Cassandra
 inventory/
+repair_logs/
+roles/mrlesmithjr.oracle-java8/
